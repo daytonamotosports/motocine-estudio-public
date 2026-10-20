@@ -128,5 +128,8 @@ def publicar(dest: Path | None = None, log=print) -> Path:
     txt = re.sub(r'(id: falla\n(?:.*\n)*?      options:\n)((?:        - .*\n)+)', lambda m: m.group(1) + opts, txt)
     form.write_text(txt, encoding='utf-8')
     (dest / '.gitignore').write_text('__pycache__/\n*.pyc\nprojects/\nsalida/\n')
+    # índice del catálogo para la app (orion-motocine lo lee para mostrar las fallas en "Nuevo video")
+    idx = [{k: f.get(k) for k in ('id', 'nombre', 'pregunta', 'explicacion', 'solucion')} for f in fallas().values()]
+    (dest / 'catalogo' / 'indice.json').write_text(json.dumps(idx, ensure_ascii=False, indent=1), encoding='utf-8')
     log(f'  estudio: copiado a {dest} ({len(fallas())} fallas en el formulario)')
     return dest

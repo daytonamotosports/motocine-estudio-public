@@ -1,0 +1,16 @@
+[
+ {
+  "id": "balancines",
+  "nombre": "Balancines desajustados",
+  "pregunta": "¿Qué falla tiene esta moto?",
+  "explicacion": "La leva mueve el balancín, y este empuja la válvula. Si queda mucho espacio, golpea y hace ese ruido.",
+  "solucion": "Se ajusta con una galga y una llave."
+ },
+ {
+  "id": "cadena",
+  "nombre": "Cadena seca",
+  "pregunta": "¿Qué suena así en tu moto?",
+  "explicacion": "Sin grasa, los eslabones rozan contra el piñón y chillan.",
+  "solucion": "Lubrícala y el ruido desaparece."
+ }
+]
