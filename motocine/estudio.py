@@ -51,14 +51,14 @@ def adivina(f: dict, letra: str = 'aleatoria', escenario: str = 'taller', seed: 
     ops.insert(LETRAS.index(letra), f['opcion'])
     lineas = ' '.join(f'{L}: {o}.' for L, o in zip(LETRAS, ops))
     narration = (f"{f['pregunta']} Escucha y elige entre tres. {lineas} Piénsalo bien. Tres… dos… uno… "
-                 f"¡Es la {letra}, de {f['palabra']}! Mira por dentro. {f['explicacion']} {f['solucion']} "
+                 f"¡Respuesta {letra}: {f['palabra']}! Mira por dentro. {f['explicacion']} {f['solucion']} "
                  f"Pero lo peor: {f['peor']} ¿Le atinaste? Comenta tu letra y escucha otra vez.")
     receta = {
         'tipo': 'adivina', 'escenario': escenario, 'pregunta': f['sello'], 'sonido': f['sonido'], 'fuente': f['fuente'],
         'opciones': [{'letra': L, 'texto': (f['tarjeta'] if o == f['opcion'] else _cap(o)), 'palabra': _palabra(o)}
                      for L, o in zip(LETRAS, ops)],
         'cuenta': ['Tres', 'dos', 'uno'],
-        'respuesta': {'letra': letra, 'palabra': 'Es', 'parte': f['parte'], 'nota': f['nota'], 'titulo': f'¡Es la {letra}!'},
+        'respuesta': {'letra': letra, 'palabra': 'Respuesta', 'parte': f['parte'], 'nota': f['nota'], 'titulo': f'¡Es la {letra}!'},
         'peor': {'palabra': 'peor', 'parte': f['parte'], 'nota': f['peor_nota'], 'titulo': 'Lo peor…'},
         'cierre': {'palabra': 'atinaste', 'titulo': '¿Le atinaste?', 'repetir': 'otra'},
     }
