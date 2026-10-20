@@ -1,0 +1,141 @@
+/* COPIA de orion-pos webapp/src/kit.css (20-oct-2026); no editar a mano en orion-pos por esta app.
+   Recortada: solo lo que usa Orion MotoCine. */
+
+.o-page-fallback {
+  animation: o-page-fallback-in 200ms ease-out 500ms both;
+}
+
+.o-check-pop {
+  animation: o-check-pop 320ms var(--motion-spring) both;
+}
+
+/* v1395 (ORION POS; copia en Portal, Taller y Admin) -- aviso rojo debajo
+   del campo en vez del globito del navegador (lib/fieldErrorBubbles.ts). */
+
+@keyframes o-page-fallback-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* v1365 -- el círculo de "marcado" rebota un poco al tocarlo (Recordatorios). */
+@keyframes o-check-pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* v1413 -- el "cargando" del iPhone (components/Spinner.tsx): 8 rayitas
+   alrededor del centro; el giro va a saltos de 45° (steps) para que la
+   rayita más oscura "camine" en vez de rodar. */
+.o-spinner {
+  animation: o-spinner-turn 0.8s steps(8) infinite;
+}
+.o-spinner > span {
+  position: absolute;
+  top: 0;
+  left: 44%;
+  width: 12%;
+  height: 30%;
+  border-radius: 999px;
+  background: currentColor;
+  /* centro del círculo = 50% del alto total = 166.67% del alto de la rayita */
+  transform-origin: 50% 166.67%;
+}
+@keyframes o-spinner-turn {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .o-spinner { animation-duration: 2.4s; }
+}
+
+/* v1413b -- el campo de texto compartido (components/ui/field.tsx). Relleno
+   gris TRANSPARENTE (--color-fill): se ve igual de bien sobre tarjeta
+   blanca, fondo gris o modo oscuro. Una app puede cambiarlo por zona
+   (Portal/Taller/Admin: blanco con sombra dentro de sus ventanas grises). */
+.o-field {
+  background: var(--o-field-bg, var(--color-fill));
+  box-shadow: var(--o-field-shadow, none);
+}
+.o-field:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+/* v1415 -- menús desplegables (components/ui/dropdown-menu.tsx, compartido). */
+/* v1365 -- pedido del usuario: "las subventanas, las que aparecen cuando
+   estamos dentro de algún menú... animaciones para cuando abren, para cuando
+   cierran... el nuevo estilo de iOS". Menú contextual del iPhone: crece desde
+   el botón que lo abrió (el "transform-origin" que da Radix), con un leve
+   rebote al llegar, y al cerrar se encoge rápido hacia ese mismo punto. */
+@keyframes o-popover-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes o-popover-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+.o-popover-content {
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin, var(--radix-select-content-transform-origin, var(--radix-popover-content-transform-origin, top right)));
+  -webkit-backdrop-filter: saturate(180%) blur(22px);
+  backdrop-filter: saturate(180%) blur(22px);
+}
+.o-popover-content[data-state="open"] {
+  animation: o-popover-in 300ms var(--motion-spring) both;
+}
+.o-popover-content[data-state="closed"] {
+  animation: o-popover-out 150ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .o-popover-content {
+    animation: none !important;
+  }
+}
+
+/* v1416 -- QUÉ QUEDA ENCIMA DE QUÉ (punto 5 de la 5.ª auditoría). Antes cada
+   pieza ponía su número a mano (de 1 a 2.000, 16 valores distintos) y un
+   aviso ("Copiado", "¡Listo!") quedaba DEBAJO de la foto ampliada del chat.
+   Ahora una sola escala con nombre, de abajo hacia arriba; en el código:
+   z-[var(--z-...)]. Dentro de un mismo componente se pueden usar 1, 2, 10
+   y 20 para ordenar sus propias partes. Lo revisa una prueba. */
+:root {
+  --z-bar: 30;       /* barras fijas de la app (arriba/abajo) */
+  --z-nav: 40;       /* menú lateral, hoja "Más", avisos de la pantalla */
+  --z-dialog: 50;    /* ventanas, menús desplegables, listas de opciones */
+  --z-blocking: 60;  /* ventanas obligatorias (aceptar términos) */
+  --z-menu: 70;      /* menú de un mensaje del chat (encima de su ventana) */
+  --z-viewer: 80;    /* foto ampliada a pantalla completa */
+  --z-share: 85;     /* imagen para compartir (factura, cotización) */
+  --z-toast: 90;     /* avisos que se van solos: SIEMPRE se ven */
+  --z-hud: 92;       /* "¡Listo!" */
+  --z-update: 95;    /* aviso y velo de actualización */
+  --z-takeover: 98;  /* la app se mudó de dirección (pantalla completa) */
+  /* v1441 -- relleno de los botones principales (texto blanco encima): el
+     verde de marca (#0e9f6e) da 3,4:1 con blanco; este da 5,3:1 (la norma
+     pide 4,5). Íconos y acentos siguen con --color-accent. Igual en oscuro. */
+  --color-accent-fill: #0b7a55;
+}
+
+/* v1424 -- ZONA DE TOQUE. Un botón chico (la X, el + y el − del carrito, salir)
+   se ve chico, pero el dedo necesita ~40 px para acertarle sin tocar el de al
+   lado. `.o-hit` agranda solo la zona que recibe el toque (invisible), no el
+   dibujo: 8 px más por cada lado. `.o-hit-y` agranda solo arriba y abajo
+   (botones pegados a otro, como el − y el + del carrito). Botones de menos de
+   32 px deben llevar una de las dos; lo revisa una prueba. */
+:where(.o-hit, .o-hit-y) { position: relative; } /* sin peso: si el botón ya es "absolute", gana */
+.o-hit::after, .o-hit-y::after { content: ""; position: absolute; inset: -8px; }
+.o-hit-y::after { inset: -11px -2px; }

@@ -1,4 +1,5 @@
 name: Estudio MotoCine
+run-name: "Video #${{ github.event.issue.number || inputs.issue }}"
 
 # Formulario "Nuevo video" (issue con la etiqueta "video") → guion de plantilla viral → voz Jorge → revisores →
 # video. Responde en el mismo issue con el video para descargar. Repositorio público: minutos gratis.

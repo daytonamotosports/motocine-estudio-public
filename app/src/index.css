@@ -1,0 +1,524 @@
+@import "tailwindcss";
+@import "./kit.css";
+
+/* COPIA de orion-pos webapp/src/index.css (20-oct-2026); no editar a mano en orion-pos por esta app.
+   Recortada: solo lo que usa Orion MotoCine. */
+
+:root {
+  --color-accent: #0e9f6e;
+  --color-accent-strong: #0b7a55;
+  --color-accent-soft: #e3f5ec;
+  --color-danger: #c93c3c;
+  --color-danger-fill: #c93c3c;
+  --color-danger-soft: #fbeaea;
+  --color-warn: #9a6108;
+  --color-warn-soft: #fbf0de;
+  /* v1392 -- azul de información (domicilio en camino, avisos "info"). */
+  --color-info: #1d5fd1;
+  --color-info-soft: #e6efff;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f6f6f3;
+  --color-surface-sunken: #f1f2ed;
+  --color-border: #eae8e2;
+  --color-border-strong: #e2e0d9;
+  --color-text: #16181c;
+  --color-muted: #61676e;
+  --color-faint: #737169;
+  --color-bg: #f6f6f3;
+  --color-ink: #16181c;
+  /* v1401 -- la opción elegida de un control de pestañas: blanca en claro y
+     gris claro en oscuro (como en el iPhone), nunca más oscura que la pista. */
+  --color-segment: #ffffff;
+  /* v1397 -- relleno gris translúcido (botón secundario, la X de las
+     ventanas): sobre negro necesita más fuerza que "7% del texto". */
+  --color-fill: color-mix(in srgb, var(--color-text) 7%, transparent);
+  --color-fill-strong: color-mix(in srgb, var(--color-text) 11%, transparent);
+  /* v1397 -- colores de las etiquetas (TONES de components/toneKit.tsx):
+     fondo suave y texto de cada tono. Viven aquí para que cambien solos
+     con el modo oscuro. */
+  --tone-green-soft: #e3f5ec;
+  --tone-green-ink: #0b7a55;
+  --tone-blue-soft: #e6efff;
+  --tone-blue-ink: #1d5fd1;
+  --tone-amber-soft: #fff3dc;
+  --tone-amber-ink: #a85d06;
+  --tone-rose-soft: #fde8ef;
+  --tone-rose-ink: #b8285a;
+  --tone-violet-soft: #efebff;
+  --tone-violet-ink: #5a3de0;
+  --tone-teal-soft: #e0f6f5;
+  --tone-teal-ink: #0a7473;
+  --tone-slate-soft: #eef1f5;
+  --tone-slate-ink: #475569;
+
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgba(20, 20, 15, 0.03);
+  /* v1275 -- ui/tabs.tsx ya referenciaba var(--shadow-soft) para la
+     pestaña activa del control segmentado (la "píldora" que flota sobre
+     la pista) desde que ese componente existe, pero esta variable NUNCA
+     se definió acá -- bug real encontrado al auditar el Dashboard para
+     unificarlo al mismo lenguaje visual: la pestaña activa de CUALQUIER
+     <Tabs> de la app perdía su sombra en silencio (resolvía a `unset`). */
+  --shadow-soft: 0 1px 4px rgba(20, 20, 15, 0.08);
+  --shadow-modal: 0 20px 60px rgba(20, 20, 15, 0.18);
+  /* v1396 -- las sombras con nombre (punto 2 de la 2.ª auditoría de estética).
+     group: tarjetas y grupos blancos sobre el fondo gris.
+     control: la opción elegida de un control segmentado, chips.
+     float: lo que flota sobre la pantalla (avisos, tarjetas flotantes).
+     on-photo: botones y textos encima de una foto.
+     modal: ventanas. Los "brillos" de color de las tarjetas grandes de cada
+     sección (verde, azul, ámbar...) siguen siendo del tono de cada una. */
+  --shadow-group: 0 1px 2px rgba(20, 20, 15, 0.05);
+  --shadow-control: 0 1px 3px rgba(20, 20, 15, 0.12);
+  --shadow-float: 0 14px 34px -14px rgba(15, 23, 42, 0.45);
+  --shadow-on-photo: 0 2px 10px rgba(0, 0, 0, 0.22);
+  --shadow-accent: 0 10px 24px rgba(14, 159, 110, 0.28);
+
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  font-family: var(--font-sans);
+  color-scheme: light;
+}
+/* v1397 -- MODO OSCURO (punto 3 de la 2.ª auditoría de estética). Pedido
+   del usuario: "sí, sigue con el punto 3".
+   - El tema lo decide lib/theme.ts (y el script del <head> de index.html,
+     antes de pintar): sigue al celular ("Automático") o lo fija el usuario
+     en Configuración > Dispositivo > Apariencia. Siempre deja escrito
+     data-theme="light" | "dark" en <html>: el CSS solo mira eso.
+   - Paleta tipo iPhone: fondo negro, tarjetas gris oscuro (#1c1c1e),
+     segundo nivel #2c2c2e. Los colores de marca se aclaran un poco para
+     leerse sobre oscuro; los fondos suaves pasan a tintes oscuros.
+   - --color-ink sigue siendo OSCURO: se usa como fondo de botones con
+     letra blanca.
+   - Las sombras casi no se ven sobre negro: las tarjetas se separan por
+     el tono de gris, y las ventanas llevan una sombra más fuerte. */
+:root[data-theme="dark"] {
+  --color-accent: #13a874;
+  --color-accent-strong: #3fd39c;
+  --color-accent-soft: #133a2c;
+  --color-danger: #ff6b68;
+  /* v1453 -- fondo de botón rojo en oscuro: el rojo claro del texto daba 3.2:1 con letra blanca. */
+  --color-danger-fill: #d4332f;
+  --color-danger-soft: #3d1c1c;
+  --color-warn: #f2ae45;
+  --color-warn-soft: #3d2c10;
+  --color-info: #6ea6ff;
+  --color-info-soft: #172c4d;
+  --color-surface: #1c1c1e;
+  --color-surface-soft: #2c2c2e;
+  --color-surface-sunken: #141416;
+  --color-border: #2f2f32;
+  --color-border-strong: #3d3d40;
+  --color-text: #f5f5f7;
+  --color-muted: #a1a1a8;
+  --color-faint: #8a8a90;
+  --color-bg: #000000;
+  --color-ink: #3a3a3c;
+  --color-segment: #48484a;
+  --color-fill: rgba(118, 118, 128, 0.24);
+  --color-fill-strong: rgba(118, 118, 128, 0.34);
+  --tone-green-soft: #133a2c;
+  --tone-green-ink: #3fd39c;
+  --tone-blue-soft: #172c4d;
+  --tone-blue-ink: #82b2ff;
+  --tone-amber-soft: #3d2c0e;
+  --tone-amber-ink: #f7b84b;
+  --tone-rose-soft: #44182a;
+  --tone-rose-ink: #ff8fb2;
+  --tone-violet-soft: #2a2350;
+  --tone-violet-ink: #b6a6ff;
+  --tone-teal-soft: #0f3534;
+  --tone-teal-ink: #4fd6d4;
+  --tone-slate-soft: #2a2f37;
+  --tone-slate-ink: #aab5c6;
+
+  --shadow-card: none;
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-group: none;
+  --shadow-control: 0 1px 3px rgba(0, 0, 0, 0.55);
+  --shadow-float: 0 14px 34px -12px rgba(0, 0, 0, 0.8);
+  --shadow-modal: 0 24px 70px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}
+/* v1397 -- "islas claras": lo que es blanco a propósito aunque la app
+   esté oscura (los botones blancos sobre las tarjetas de color, la vista
+   previa del recibo, el fondo de las fotos) vuelve a los colores claros
+   por dentro. Sin esto, un botón blanco con letra "verde del tema" se
+   leería verde claro sobre blanco. `.o-light` sirve para marcar a mano
+   una isla que no use bg-white. Mismos valores que :root (lo revisa
+   tests/darkMode.test.ts). */
+.o-light,
+:root[data-theme="dark"] .bg-white {
+  --color-accent: #0e9f6e;
+  --color-accent-strong: #0b7a55;
+  --color-accent-soft: #e3f5ec;
+  --color-danger: #c93c3c;
+  --color-danger-fill: #c93c3c;
+  --color-danger-soft: #fbeaea;
+  --color-warn: #9a6108;
+  --color-warn-soft: #fbf0de;
+  /* v1392 -- azul de información (domicilio en camino, avisos "info"). */
+  --color-info: #1d5fd1;
+  --color-info-soft: #e6efff;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f6f6f3;
+  --color-surface-sunken: #f1f2ed;
+  --color-border: #eae8e2;
+  --color-border-strong: #e2e0d9;
+  --color-text: #16181c;
+  --color-muted: #61676e;
+  --color-faint: #737169;
+  --color-bg: #f6f6f3;
+  --color-ink: #16181c;
+  /* v1401 -- la opción elegida de un control de pestañas: blanca en claro y
+     gris claro en oscuro (como en el iPhone), nunca más oscura que la pista. */
+  --color-segment: #ffffff;
+  /* v1397 -- relleno gris translúcido (botón secundario, la X de las
+     ventanas): sobre negro necesita más fuerza que "7% del texto". */
+  --color-fill: color-mix(in srgb, var(--color-text) 7%, transparent);
+  --color-fill-strong: color-mix(in srgb, var(--color-text) 11%, transparent);
+  /* v1397 -- colores de las etiquetas (TONES de components/toneKit.tsx):
+     fondo suave y texto de cada tono. Viven aquí para que cambien solos
+     con el modo oscuro. */
+  --tone-green-soft: #e3f5ec;
+  --tone-green-ink: #0b7a55;
+  --tone-blue-soft: #e6efff;
+  --tone-blue-ink: #1d5fd1;
+  --tone-amber-soft: #fff3dc;
+  --tone-amber-ink: #a85d06;
+  --tone-rose-soft: #fde8ef;
+  --tone-rose-ink: #b8285a;
+  --tone-violet-soft: #efebff;
+  --tone-violet-ink: #5a3de0;
+  --tone-teal-soft: #e0f6f5;
+  --tone-teal-ink: #0a7473;
+  --tone-slate-soft: #eef1f5;
+  --tone-slate-ink: #475569;
+  color-scheme: light;
+}
+@theme inline {
+  --color-accent: var(--color-accent);
+  --color-accent-strong: var(--color-accent-strong);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-danger: var(--color-danger);
+  --color-danger-fill: var(--color-danger-fill);
+  --color-danger-soft: var(--color-danger-soft);
+  --color-warn: var(--color-warn);
+  --color-warn-soft: var(--color-warn-soft);
+  --color-info: var(--color-info);
+  --color-info-soft: var(--color-info-soft);
+  --color-surface: var(--color-surface);
+  --color-surface-soft: var(--color-surface-soft);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-text: var(--color-text);
+  --color-muted: var(--color-muted);
+  --color-faint: var(--color-faint);
+  --color-bg: var(--color-bg);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-pill: var(--radius-pill);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  overscroll-behavior-y: none;
+  touch-action: pan-x pan-y;
+}
+html {
+  zoom: clamp(0.82, calc(100vw / 390px), 1);
+}
+/* v1516 -- pedido del usuario, con captura: "cuando la pantalla es alargada
+   aparece una franja gris en la parte inferior y se desaprovecha". Causa: el
+   `zoom` de arriba (v940) también encoge las alturas en `dvh`: en un celular
+   de 360 px de ancho, `100dvh` medía solo el 92 % del alto real y abajo
+   quedaba el fondo gris. --app-h es el alto real de la pantalla ya
+   compensado: usarlo SIEMPRE en vez de `100dvh` (prueba tests/v1516).
+   --app-zoom vale 1 si el navegador no sabe calcular el zoom (entonces
+   tampoco aplica el zoom de arriba y no hay nada que compensar). */
+:root {
+  --app-zoom: 1;
+  --app-h: calc(100dvh / var(--app-zoom));
+}
+@supports (zoom: calc(100vw / 390px)) {
+  :root {
+    --app-zoom: clamp(0.82, calc(100vw / 390px), 1);
+  }
+}
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* v888 -- pedido explicito del usuario, con captura: "toco un texto y
+     el navegador se selecciona automáticamente y el navegador trata de
+     salir ahí en la parte de abajo" -- mantener presionado un párrafo
+     normal (una descripción en Salud del sistema, una etiqueta, lo que
+     sea) disparaba la seleccion de texto NATIVA de Android/Chrome, que a
+     su vez abre su propia tarjeta flotante (buscar en Google, diccionario,
+     compartir) SUPERPUESTA a la app -- exactamente la "intrusion del
+     navegador" que el usuario no quiere ver nunca. Ya existia
+     `user-select:none` para un par de casos puntuales (`.o-press`, los
+     inputs numericos, ver comentarios de mas abajo) pero nunca a nivel
+     global -- cualquier texto plano corrido (parrafos, etiquetas, nombres)
+     se quedaba seleccionable por default. Se apaga aca, en el body
+     completo, y se vuelve a encender explicitamente SOLO donde de verdad
+     hace falta poder seleccionar/copiar texto real (inputs, textareas,
+     contenteditable -- ver la regla de abajo): esos siguen funcionando
+     exactamente igual que antes, es el unico lugar donde una app nativa
+     tambien dejaria seleccionar. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+  -webkit-touch-callout: default;
+}
+#root {
+  min-height: var(--app-h);
+}
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+input[inputmode="numeric"] {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.o-mono {
+  font-family: var(--font-mono);
+}
+.o-scroll::-webkit-scrollbar {
+  display: none;
+}
+.o-scroll {
+  scrollbar-width: none;
+}
+:root {
+  --motion-spring: cubic-bezier(0.2, 0.9, 0.25, 1.08);
+  --motion-settle: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 150ms;
+  --motion-medium: 280ms;
+}
+/* Feedback de "presionado" en tarjetas/botones -- mismo criterio que
+   .app-pressed de la app vieja, pero via :active nativo (sin JS que
+   agregue/quite una clase a mano en cada touchstart/touchend).
+   v676 -- pedido explicito del usuario: "esto pasa en más partes de la
+   aplicación... quiero que se comporte como una aplicación real" -- un
+   dedo/mouse arrastrando sobre un boton, tarjeta o link del riel podia
+   seleccionar su TEXTO como si fuera un parrafo de una pagina web; una
+   app nativa no deja que eso pase en sus controles. `.o-press` ya se usa
+   en todo elemento presionable de la app, asi que un solo lugar alcanza
+   -- los inputs de texto reales (que SI necesitan seleccionarse) no
+   llevan esta clase. */
+.o-press {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform var(--motion-fast) var(--motion-settle), filter var(--motion-fast) ease, box-shadow 220ms ease;
+}
+.o-press:active {
+  transform: scale(0.965);
+  filter: brightness(0.975);
+}
+.o-press-soft:active {
+  transform: scale(0.988);
+}
+/* Entrada de elementos nuevos en listas (lineas de carrito, tarjetas de
+   producto al cargar) -- se dispara solo al MONTAR el nodo (una linea que
+   ya existia y solo cambia de cantidad no vuelve a animarse, porque React
+   no la desmonta). */
+@keyframes o-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.o-item-in {
+  animation: o-item-in 220ms var(--motion-settle) both;
+  animation-delay: min(calc(var(--o-i, 0) * 14ms), 120ms);
+}
+/* Salida de una linea del carrito -- ver CartPanel: el remove real se
+   demora ~180ms para que esto alcance a jugar antes de que React
+   desmonte el nodo. */
+@keyframes o-item-out {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    max-height: 60px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(14px) scale(0.97);
+    max-height: 0;
+  }
+}
+.o-item-out {
+  animation: o-item-out 180ms ease-in both;
+  overflow: hidden;
+}
+/* "Pop" -- contador del carrito (badge, barra angosta movil) al cambiar.
+   Se dispara con key={cart.count} en el elemento (remonta el nodo, la
+   animacion arranca sola). */
+@keyframes o-pop {
+  0% {
+    transform: scale(0.75);
+  }
+  55% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.o-pop {
+  animation: o-pop 320ms var(--motion-spring) both;
+}
+/* Icono del riel de navegacion al activarse (mismo bounce que
+   app-motion-nav en la app vieja). */
+@keyframes o-nav-bounce {
+  0% {
+    transform: scale(0.82);
+  }
+  62% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.o-nav-bounce {
+  animation: o-nav-bounce 320ms var(--motion-spring) both;
+}
+/* v1354 -- animación de cambio de pantalla SIN fotos (ver
+   ViewTransitionRoutes.tsx): solo la pantalla nueva se mueve, con
+   transform/opacity (las hace la tarjeta gráfica). Curva y duración del
+   iPhone. `backwards` (no `both`): al terminar no queda ningún transform
+   puesto, así los elementos fijos de la pantalla (barras de abajo, botones
+   flotantes) vuelven a su lugar normal. */
+@keyframes o-page-forward {
+  from {
+    transform: translate3d(34%, 0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes o-page-back {
+  from {
+    transform: translate3d(-26%, 0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes o-page-fade {
+  from {
+    transform: translate3d(0, 10px, 0) scale(0.992);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+.o-page-forward {
+  animation: o-page-forward 420ms cubic-bezier(0.32, 0.72, 0, 1) backwards;
+}
+.o-page-back {
+  animation: o-page-back 380ms cubic-bezier(0.32, 0.72, 0, 1) backwards;
+}
+.o-page-fade {
+  animation: o-page-fade 260ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .o-press,
+  .o-item-in,
+  .o-item-out,
+  .o-pop,
+  .o-nav-bounce,
+  .o-float-in,
+  .o-update-in,
+  .o-update-out,
+  .o-update-veil,
+  .o-update-card-in,
+  .o-update-pulse,
+  .o-update-icon,
+  .o-tab-in,
+  .o-push-in,
+  .o-page-forward,
+  .o-page-back,
+  .o-page-fade,
+  .o-line-draw,
+  .o-area-fade,
+  .o-donut-sweep,
+  .o-bar-grow,
+  .o-flow-arrow {
+    animation: none !important;
+    transition: none !important;
+  }
+  .o-press:active {
+    transform: none;
+  }
+  ::view-transition-old(app-main),
+  ::view-transition-new(app-main) {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   PROPIO DE ORION MOTOCINE (no es copia): la marca Daytona Moto Sport.
+   El rojo de la marca reemplaza al verde de Orion como acento. Contraste
+   revisado: --color-accent-strong (texto) y --color-accent-fill (botón con
+   letra blanca) dan más de 4,5:1 en claro y en oscuro. */
+:root {
+  --color-accent: #e3141b;
+  --color-accent-strong: #b5101a;
+  --color-accent-soft: #fde8e8;
+  --color-accent-fill: #c8111a;
+  --shadow-accent: 0 10px 24px rgba(227, 20, 27, 0.28);
+}
+:root[data-theme="dark"] {
+  --color-accent: #ff3b41;
+  --color-accent-strong: #ff7a7e;
+  --color-accent-soft: #3d1416;
+  --color-accent-fill: #d0141c;
+}
+/* Las "islas claras" (copia de arriba) vuelven al acento claro: aquí, el rojo. */
+.o-light,
+:root[data-theme="dark"] .bg-white {
+  --color-accent: #e3141b;
+  --color-accent-strong: #b5101a;
+  --color-accent-soft: #fde8e8;
+  --color-accent-fill: #c8111a;
+}

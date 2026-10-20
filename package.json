@@ -1,0 +1,11 @@
+{
+  "name": "motocine-estudio-public",
+  "private": true,
+  "description": "Raíz del estudio: la app Orion MotoCine vive en app/. Copia de motocine-ai/app/raiz/package.json.",
+  "scripts": {
+    "build": "cd app && npm ci && npm run build"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.3"
+  }
+}

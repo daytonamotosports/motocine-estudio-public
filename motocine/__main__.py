@@ -171,7 +171,7 @@ def cmd_estudio(args):
     from .estudio import crear, fallas
     if args.publicar:
         from .estudio import publicar
-        publicar()
+        publicar(archivos=args.archivos)
         return
     if args.lista:
         for k, f in fallas().items():
@@ -264,7 +264,8 @@ def main(argv=None):
     p.add_argument('--formato', default='adivina'); p.add_argument('--falla', default='')
     p.add_argument('--escenario', default='taller'); p.add_argument('--letra', default='aleatoria')
     p.add_argument('--nombre'); p.add_argument('--lista', action='store_true', help='ver las fallas del catálogo')
-    p.add_argument('--publicar', action='store_true', help='copiar motor + catálogo + formulario al repositorio público del estudio')
+    p.add_argument('--publicar', action='store_true', help='copiar motor + catálogo + formulario + app al repositorio público del estudio')
+    p.add_argument('--archivos', action='store_true', help='con --publicar: activar el bucket R2 "motocine-archivos" (créalo antes en Cloudflare)')
     p.set_defaults(fn=cmd_estudio)
     p = sub.add_parser('voices', help='listar voces de Edge TTS')
     p.add_argument('--prefix', default='es-')

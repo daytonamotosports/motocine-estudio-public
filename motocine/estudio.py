@@ -99,11 +99,12 @@ def leer_formulario(body: str) -> dict:
                 if c.startswith(k) and v and v != '_No response_':
                     return v
         return default
+    archivos = [u.strip() for u in get('archivos').splitlines() if u.strip().startswith('http')]   # fotos/videos subidos en la app
     return {'formato': get('formato', default='adivina'), 'falla': get('falla'), 'escenario': get('escenario', default='taller'),
-            'letra': get('letra', 'respuesta', default='aleatoria'), 'nombre': get('nombre')}
+            'letra': get('letra', 'respuesta', default='aleatoria'), 'nombre': get('nombre'), 'archivos': archivos}
 
 
-def publicar(dest: Path | None = None, log=print) -> Path:
+def publicar(dest: Path | None = None, log=print, app: bool = True, archivos: bool = False) -> Path:
     """Copia el motor, el catálogo y el formulario al repositorio PÚBLICO motocine-estudio-public (minutos gratis de
     GitHub) y regenera la lista de fallas del formulario a partir del catálogo. Luego: commit + push en `dest`."""
     import shutil
@@ -131,5 +132,16 @@ def publicar(dest: Path | None = None, log=print) -> Path:
     # índice del catálogo para la app (orion-motocine lo lee para mostrar las fallas en "Nuevo video")
     idx = [{k: f.get(k) for k in ('id', 'nombre', 'pregunta', 'explicacion', 'solucion')} for f in fallas().values()]
     (dest / 'catalogo' / 'indice.json').write_text(json.dumps(idx, ensure_ascii=False, indent=1), encoding='utf-8')
+    if app:                                            # la app Orion MotoCine (Cloudflare la construye desde aquí)
+        if (dest / 'app').exists():
+            shutil.rmtree(dest / 'app')
+        shutil.copytree(ROOT / 'app', dest / 'app', ignore=shutil.ignore_patterns('node_modules', 'dist', '.wrangler', 'raiz',
+                                                                                   '__pycache__', '*.pyc'))
+        for f in (ROOT / 'app' / 'raiz').iterdir():
+            shutil.copy(f, dest / f.name)
+        if not archivos:                               # sin el bucket R2 creado, Cloudflare rechazaría la publicación
+            for w in (dest / 'wrangler.toml', dest / 'app' / 'wrangler.toml'):
+                w.write_text(re.sub(r'\n\[\[r2_buckets\]\]\nbinding = "ARCHIVOS"\nbucket_name = "motocine-archivos"\n?', '\n',
+                                    w.read_text(encoding='utf-8')), encoding='utf-8')
     log(f'  estudio: copiado a {dest} ({len(fallas())} fallas en el formulario)')
     return dest

@@ -1,0 +1,25 @@
+# Orion MotoCine -- Worker de Cloudflare (la app + su API), desde la RAÍZ del
+# repositorio motocine-estudio-public (copia de app/raiz/wrangler.toml).
+# Sirve si en Cloudflare la carpeta raíz quedó en "/"; si quedó en "app",
+# se usa app/wrangler.toml. Los dos deben decir lo mismo.
+# "name" debe coincidir con el Worker creado en el panel de Cloudflare.
+# Las claves (GITHUB_TOKEN, APP_PIN) NO van aquí: se ponen en el panel
+# (Worker > Settings > Variables and Secrets) como "Secret".
+name = "motocine-estudio-public"
+main = "app/worker/index.ts"
+compatibility_date = "2026-08-18"
+
+[assets]
+directory = "./app/dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+# /api/* siempre pasa primero por el Worker (no por los archivos).
+run_worker_first = ["/api/*"]
+
+[vars]
+REPO = "daytonamotosports/motocine-estudio-public"
+
+# Fotos y videos que sube el dueño. OJO: crear el bucket UNA VEZ en Cloudflare
+# (R2 > Create bucket > "motocine-archivos") ANTES de publicar: si el bucket
+# no existe, Cloudflare puede rechazar la publicación. Si se quita este
+# bloque, la app sigue funcionando y la subida solo dice que falta activarla.
