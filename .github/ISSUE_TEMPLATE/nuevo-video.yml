@@ -1,0 +1,54 @@
+name: 🎬 Nuevo video
+description: Elige el formato y la falla; el video se arma solo y te llega aquí mismo (15–25 min).
+title: "Video: "
+labels: ["video"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Llena las opciones y presiona **Submit new issue**. El guion, la voz (Jorge), los revisores y el video
+        se hacen solos. Cuando esté listo, aparece un comentario aquí con el video para descargar.
+  - type: dropdown
+    id: formato
+    attributes:
+      label: Formato
+      options:
+        - "Adivina la falla por el sonido"
+    validations:
+      required: true
+  - type: dropdown
+    id: falla
+    attributes:
+      label: Falla
+      description: Del catálogo (cada una trae su sonido y su escena "por dentro").
+      options:
+        - "balancines"
+        - "cadena"
+    validations:
+      required: true
+  - type: dropdown
+    id: escenario
+    attributes:
+      label: Escenario
+      options:
+        - "Taller"
+        - "Patio"
+    validations:
+      required: true
+  - type: dropdown
+    id: letra
+    attributes:
+      label: Letra correcta
+      description: En qué opción (A, B o C) va la respuesta.
+      options:
+        - "Aleatoria"
+        - "A"
+        - "B"
+        - "C"
+    validations:
+      required: true
+  - type: input
+    id: nombre
+    attributes:
+      label: Nombre del video (opcional)
+      placeholder: "ej. balancines-octubre"

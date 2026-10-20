@@ -1,0 +1,67 @@
+name: Estudio MotoCine
+
+# Formulario "Nuevo video" (issue con la etiqueta "video") → guion de plantilla viral → voz Jorge → revisores →
+# video. Responde en el mismo issue con el video para descargar. Repositorio público: minutos gratis.
+on:
+  issues:
+    types: [opened, edited]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "Número del pedido (issue) a rehacer"
+        required: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: estudio-${{ github.event.issue.number || inputs.issue }}
+  cancel-in-progress: true
+
+jobs:
+  video:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'video') || startsWith(github.event.issue.title, 'Video')
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      N: ${{ github.event.issue.number || inputs.issue }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Instalar programas
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg rubberband-cli
+          pip install -q -r requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/motocine/models
+          key: modelos-whisper-small
+      - name: Avisar que empezó
+        run: gh issue comment "$N" --body "⏳ Empecé a armar tu video (15–25 min). Te aviso aquí cuando esté."
+      - name: Leer el pedido
+        run: |
+          gh issue view "$N" --json body -q .body > pedido.md
+          echo "ISSUE_NUMBER=$N" >> "$GITHUB_ENV"
+      - name: Armar el video
+        id: armar
+        continue-on-error: true
+        run: ISSUE_BODY="$(cat pedido.md)" python scripts/estudio_ci.py
+      - name: Entregar
+        if: always()
+        run: |
+          if [ -f salida/video.mp4 ]; then
+            TAG="video-$N-${{ github.run_number }}"
+            gh release create "$TAG" salida/video.mp4 $( [ -f salida/hoja.jpg ] && echo salida/hoja.jpg ) \
+              --title "Video del pedido #$N" --notes-file salida/resumen.md
+            URL="https://github.com/${{ github.repository }}/releases/download/$TAG"
+            { echo "✅ **¡Tu video está listo!**"; echo; echo "🎬 [Descargar el video]($URL/video.mp4)"; echo;
+              [ -f salida/hoja.jpg ] && echo "![cuadros]($URL/hoja.jpg)"; echo; cat salida/resumen.md; } > comentario.md
+          else
+            { echo "⚠️ **No se pudo armar el video.**"; echo; cat salida/resumen.md 2>/dev/null || echo "Revisa el registro de Actions."; } > comentario.md
+          fi
+          gh issue comment "$N" --body-file comentario.md

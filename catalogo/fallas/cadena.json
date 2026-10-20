@@ -1,0 +1,20 @@
+{
+  "id": "cadena",
+  "nombre": "Cadena seca",
+  "opcion": "cadena seca",
+  "tarjeta": "Cadena seca",
+  "palabra": "cadena",
+  "pregunta": "¿Qué suena así en tu moto?",
+  "sello": "¿QUÉ SUENA ASÍ?",
+  "sonido": "cadena_seca",
+  "fuente": "cadena",
+  "parte": "cadena",
+  "nota": "CADENA SECA",
+  "explicacion": "Sin grasa, los eslabones rozan contra el piñón y chillan.",
+  "solucion": "Lubrícala y el ruido desaparece.",
+  "peor": "se estira y se come el piñón.",
+  "peor_nota": "SE ESTIRA",
+  "detalle": {"tipo": "cadena", "nombres": ["eslabones", "piñón"], "fases": {"lubrica": "Lubrícala", "estira": "peor"}},
+  "distractores": ["frenos cristalizados", "rodamiento de rueda", "balancines desajustados"],
+  "verificado": "20-oct-2026: cadena sin lubricar chilla y se estira; desgasta piñón y corona; lubricar cada ~500 km."
+}

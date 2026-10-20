@@ -1,0 +1,20 @@
+{
+  "id": "balancines",
+  "nombre": "Balancines desajustados",
+  "opcion": "balancines desajustados",
+  "tarjeta": "Balancines",
+  "palabra": "balancines",
+  "pregunta": "¿Qué falla tiene esta moto?",
+  "sello": "¿QUÉ FALLA ES?",
+  "sonido": "motor_tic",
+  "fuente": "motor",
+  "parte": "culata",
+  "nota": "BALANCINES",
+  "explicacion": "La leva mueve el balancín, y este empuja la válvula. Si queda mucho espacio, golpea y hace ese ruido.",
+  "solucion": "Se ajusta con una galga y una llave.",
+  "peor": "si no lo ajustas, se gasta la leva.",
+  "peor_nota": "SE GASTA LA LEVA",
+  "detalle": {"tipo": "balancines", "nombres": ["leva", "balancín", "válvula"], "fases": {"ajuste": "ajusta", "gasta": "peor"}},
+  "distractores": ["cadena floja", "rodamiento de rueda", "frenos cristalizados"],
+  "verificado": "20-oct-2026: tic metálico que sube con las rpm = holgura de válvulas; se calibra con galga; deja gastar leva y balancín."
+}

@@ -1,0 +1,11 @@
+# Núcleo (todo gratis, sin claves)
+edge-tts>=7.0        # voz neuronal + tiempo exacto de cada palabra
+playwright>=1.45     # Chromium sin pantalla para dibujar la animación
+numpy>=1.24          # música y efectos de sonido
+sherpa-onnx>=1.12     # voz local sin internet (motor kokoro)
+pillow>=9            # enderezar y achicar fotos del celular
+pytest>=7            # pruebas
+
+# Opcionales
+# faster-whisper     # tiempos de grabaciones propias (el vigilante de voz usa Whisper de sherpa-onnx, ya incluido)
+# piper-tts          # voz 100% sin internet

@@ -1,0 +1,30 @@
+{
+  "name": "Daytona Moto Sport",
+  "wordmark": {
+    "line1": "DAYTONA",
+    "line2a": "MOTO",
+    "line2b": "SPORT"
+  },
+  "logo": "logo.png",
+  "colors": {
+    "primary": "#C10608",
+    "accent": "#E3141B",
+    "text": "#FFFFFF",
+    "ink": "#0B0B0C",
+    "bg1": "#1A1B1F",
+    "bg2": "#030304"
+  },
+  "voice": {
+    "engine": "edge",
+    "voice": "es-MX-JorgeNeural",
+    "rate": "+15%",
+    "pausas": 0.8,
+    "expresion": 1.4,
+    "start": 0.3
+  },
+  "style_notes": "Negro, blanco y rojo del logo. Letra gruesa inclinada (Montserrat 800-900 cursiva). Estilo de lista técnica limpia, sin degradados chillones. Voz latinoamericana neutra.",
+  "background": {
+    "style": "image",
+    "image": "fondo-taller.jpg"
+  }
+}

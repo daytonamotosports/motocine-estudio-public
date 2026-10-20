@@ -1,0 +1,18 @@
+{
+  "_doc": "Tomas de cámara 3D. Claves: u (0..1 de la escena) o at (segundos), target [x,y,z], dist, yaw, pitch (radianes), fov. cut:true = corte de cámara (salta a esta clave con barrido).",
+  "wide": [{"u": 0, "target": [0, -20, 0], "dist": 2000, "yaw": -0.62, "pitch": 0.3}, {"u": 1, "target": [0, -20, 0], "dist": 1850, "yaw": -0.32, "pitch": 0.18}],
+  "reveal": [{"u": 0, "target": [-235, 30, 0], "dist": 560, "yaw": -1.05, "pitch": 0.38}, {"u": 0.18, "target": [-215, 20, 0], "dist": 640, "yaw": -0.88, "pitch": 0.33},
+             {"u": 0.55, "target": [-40, -10, 0], "dist": 1550, "yaw": -0.62, "pitch": 0.26}, {"u": 1, "target": [0, -20, 0], "dist": 1900, "yaw": -0.38, "pitch": 0.2}],
+  "coverage": [{"u": 0, "target": [0, -20, 0], "dist": 2050, "yaw": -0.7, "pitch": 0.3}, {"u": 0.3, "target": [0, -20, 0], "dist": 1800, "yaw": -0.45, "pitch": 0.24},
+               {"u": 0.31, "cut": true, "target": [-235, 0, 0], "dist": 620, "yaw": 0.55, "pitch": 0.2}, {"u": 0.62, "target": [-235, 10, 0], "dist": 700, "yaw": 0.25, "pitch": 0.3},
+               {"u": 0.63, "cut": true, "target": [200, -120, 0], "dist": 900, "yaw": -0.9, "pitch": -0.05}, {"u": 1, "target": [120, -60, 0], "dist": 1300, "yaw": -0.6, "pitch": 0.08}],
+  "low": [{"u": 0, "target": [0, -40, 0], "dist": 1950, "yaw": -0.55, "pitch": 0.26}, {"u": 0.3, "target": [10, -170, 0], "dist": 1200, "yaw": -0.3, "pitch": -0.1},
+          {"u": 1, "target": [30, -160, 0], "dist": 1080, "yaw": -0.12, "pitch": -0.04}],
+  "low_cut": [{"u": 0, "target": [0, -20, 0], "dist": 1950, "yaw": 0.45, "pitch": 0.26}, {"u": 0.28, "target": [0, -40, 0], "dist": 1750, "yaw": 0.25, "pitch": 0.2},
+              {"u": 0.29, "cut": true, "target": [10, -170, 0], "dist": 1150, "yaw": -0.3, "pitch": -0.1}, {"u": 1, "target": [30, -160, 0], "dist": 1050, "yaw": -0.1, "pitch": -0.03}],
+  "top": [{"u": 0, "target": [0, 30, 0], "dist": 1750, "yaw": -0.55, "pitch": 0.34}, {"u": 0.22, "target": [40, 200, 0], "dist": 900, "yaw": -0.7, "pitch": 0.4},
+          {"u": 0.72, "target": [110, 120, 0], "dist": 900, "yaw": -0.38, "pitch": 0.4}, {"u": 1, "target": [0, -20, 0], "dist": 1800, "yaw": -0.3, "pitch": 0.22}],
+  "top_cut": [{"u": 0, "target": [40, 200, 0], "dist": 900, "yaw": -0.75, "pitch": 0.42}, {"u": 0.6, "target": [100, 140, 0], "dist": 820, "yaw": -0.4, "pitch": 0.38},
+              {"u": 0.61, "cut": true, "target": [0, -20, 0], "dist": 1500, "yaw": 0.5, "pitch": 0.12}, {"u": 1, "target": [0, -20, 0], "dist": 1900, "yaw": 0.2, "pitch": 0.2}],
+  "turntable": [{"u": 0, "target": [0, 0, 0], "dist": 2100, "yaw": -0.35, "pitch": 0.14}, {"u": 1, "target": [0, 0, 0], "dist": 1900, "yaw": -0.12, "pitch": 0.1}]
+}

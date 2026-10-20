@@ -1,0 +1,23 @@
+{
+  "name": "MotoCine",
+  "wordmark": {
+    "line1": "MOTOCINE",
+    "line2a": "",
+    "line2b": "AI"
+  },
+  "logo": null,
+  "colors": {
+    "primary": "#1F6FEB",
+    "accent": "#FF9F1C",
+    "text": "#FFFFFF",
+    "ink": "#0B0B0C",
+    "bg1": "#1A1B1F",
+    "bg2": "#030304"
+  },
+  "voice": {
+    "engine": "kokoro",
+    "voice": "em_santa",
+    "speed": 1.4,
+    "start": 0.4
+  }
+}
